@@ -11,11 +11,13 @@ using namespace std;
 
 #include "dijkstra_althorigthm.h"
 
+#include "graph.h"
+
 int main() {
 
-	cout << "HELLO test";
+	// find_shortest_paths_by_dijkstra();
 
-	find_shortest_paths_by_dijkstra();
+	depth_first_search();
 
 	return 0;
 }

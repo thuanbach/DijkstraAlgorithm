@@ -14,7 +14,7 @@ using namespace std;
 const unsigned int TOTAL_VERTEXES = 13;
 const int MAX_INTEGER = 1000;
 
-void initiate(int graph[TOTAL_VERTEXES][TOTAL_VERTEXES]) {
+void initiate_prim(int graph[TOTAL_VERTEXES][TOTAL_VERTEXES]) {
 
 	for (unsigned int i=0; i< TOTAL_VERTEXES; i++) {
 		for (unsigned int j=0; j< TOTAL_VERTEXES; j++) {
@@ -22,94 +22,80 @@ void initiate(int graph[TOTAL_VERTEXES][TOTAL_VERTEXES]) {
 		}
 	}
 
-	graph[0][1] = 3;
-	graph[0][3] = 3;
-	graph[0][5] = 3;
+	graph[0][1] = 50;
+	graph[0][2] = 40;
+	graph[0][3] = 260;
 
-	graph[1][0] = 3;
-	graph[1][2] = 9;
-	graph[1][3] = 1;
-	graph[1][4] = 3;
-
-	graph[2][1] = 9;
-	graph[2][4] = 3;
-	graph[2][7] = 9;
-
-	graph[3][0] = 3;
-	graph[3][1] = 1;
-	graph[3][5] = 5;
-	graph[3][6] = 7;
-
-	graph[4][1] = 3;
-	graph[4][2] = 3;
-	graph[4][6] = 4;
-	graph[4][7] = 7;
-
-	graph[5][0] = 3;
-	graph[5][3] = 5;
-	graph[5][8] = 1;
-	graph[5][10] = 7;
-
-	graph[6][3] = 7;
-	graph[6][4] = 4;
-	graph[6][8] = 2;
-	graph[6][9] = 1;
-
-	graph[7][2] = 9;
-	graph[7][4] = 7;
-	graph[7][9] = 1;
-	graph[7][12] = 5;
-
-	graph[8][5] = 1;
-	graph[8][6] = 2;
-	graph[8][10] = 6;
-	graph[8][11] = 3;
-
-	graph[9][6] = 1;
-	graph[9][7] = 1;
-	graph[9][11] = 4;
-	graph[9][12] = 4;
+	graph[1][0] = 50;
+	graph[1][2] = 60;
 
 
-	graph[10][5] = 7;
-	graph[10][8] = 6;
-	graph[10][11] = 1;
+	graph[2][0] = 40;
+	graph[2][1] = 60;
+	graph[2][6] = 155;
+	graph[2][7] = 120;
 
-	graph[11][8] = 3;
-	graph[11][9] = 4;
-	graph[11][10] = 1;
-	graph[11][12] = 7;
 
-	graph[12][7] = 5;
-	graph[12][9] = 4;
-	graph[12][11] = 7;
+	graph[3][0] = 260;
+	graph[3][4] = 148;
+	graph[3][5] = 180;
+
+
+	graph[4][3] = 148;
+	graph[4][5] = 120;
+
+
+	graph[5][3] = 180;
+	graph[5][4] = 120;
+	graph[5][6] = 180;
+
+
+	graph[6][2] = 155;
+	graph[6][5] = 180;
+	graph[6][7] = 150;
+	graph[6][8] = 180;
+
+	graph[7][2] = 120;
+	graph[7][6] = 150;
+	graph[7][8] = 130;
+
+
+	graph[8][6] = 180;
+	graph[8][7] = 130;
+	graph[8][9] = 320;
+
+
+	graph[9][8] = 320;
+
 
 	return;
 }
 
 
-int find_smallest_distance(int distance[TOTAL_VERTEXES], std::vector<int> unprocessed_vertexes) {
+int find_smallest_dis(int distance[TOTAL_VERTEXES], std::vector<int> unprocessed_vertexes) {
 
 	int smalless = MAX_INTEGER;
 	int next_vertex = unprocessed_vertexes.at(0);
 	int index = 0;
 	for (unsigned int i=0; i<unprocessed_vertexes.size(); i++) {
+
 		if ( distance[unprocessed_vertexes.at(i)] < smalless) {
+
 			smalless = distance[unprocessed_vertexes.at(i)];
 			next_vertex = unprocessed_vertexes.at(i);
 			index = i;
 
 		}
 	}
-	unprocessed_vertexes.erase(unprocessed_vertexes.begin(), unprocessed_vertexes.begin()+index); // @suppress("Invalid arguments")
+	//unprocessed_vertexes.erase(unprocessed_vertexes.begin(), unprocessed_vertexes.begin()+index); // @suppress("Invalid arguments")
 	return next_vertex;
 }
 
-void find_shortest_paths_by_dijkstra() {
+void find_spanning_tree() {
 
 	int graph[TOTAL_VERTEXES][TOTAL_VERTEXES];
 
-	initiate(graph);
+	initiate_prim(graph);
 
 
 	std::vector<int> processed_vertexes;
@@ -125,9 +111,6 @@ void find_shortest_paths_by_dijkstra() {
 	unprocessed_vertexes.push_back(7);
 	unprocessed_vertexes.push_back(8);
 	unprocessed_vertexes.push_back(9);
-	unprocessed_vertexes.push_back(10);
-	unprocessed_vertexes.push_back(11);
-	unprocessed_vertexes.push_back(12);
 
 
 	int distance[TOTAL_VERTEXES];
@@ -142,19 +125,20 @@ void find_shortest_paths_by_dijkstra() {
 
 	while (!unprocessed_vertexes.empty()) {
 
-		int next_vertex = find_smallest_distance(distance, unprocessed_vertexes);
-		// cout << "next" << next_vertex << endl;
+		int next_vertex = find_smallest_dis(distance, unprocessed_vertexes);
+
+		cout << "Next vertex: " << next_vertex;
 
 		std::vector<int> temp;
 		for ( int i=0; i<unprocessed_vertexes.size(); i++){
 			if (unprocessed_vertexes.at(i) != next_vertex) {
 				temp.push_back(unprocessed_vertexes.at(i));
 			}
-
 		}
 
 		unprocessed_vertexes = temp;
 
+		processed_vertexes.push_back(next_vertex);
 
 		for (int i=1; i<TOTAL_VERTEXES; i++) {
 
@@ -165,11 +149,14 @@ void find_shortest_paths_by_dijkstra() {
 				}
 			}
 		}
+
+
 	}
 
-	cout << "Vertex		" << "Distance		" << "Path		" <<endl;
-	for (unsigned int i=0; i<TOTAL_VERTEXES; i++) {
-
-		cout << i << "		" << distance[i] << "		" << preprocessor[i] <<endl;
-	}
+//	cout << "Vertex		" << "Distance		" << "Path		" <<endl;
+//
+//	for (unsigned int i=0; i<TOTAL_VERTEXES; i++) {
+//
+//		cout << i << "		" << distance[i] << "		" << preprocessor[i] <<endl;
+//	}
 }
