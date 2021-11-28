@@ -13,9 +13,15 @@ using namespace std;
 
 #include "graph.h"
 
+#include "prim_althorigthm.h"
+
 int main() {
 
-	// find_shortest_paths_by_dijkstra();
+	//find_shortest_paths_by_dijkstra();
+
+
+	//find_spanning_tree();
+
 
 	depth_first_search();
 

@@ -9,7 +9,7 @@
 #define SRC_PRIM_ALTHORIGTHM_H_
 
 
-
+void find_spanning_tree();
 
 
 #endif /* SRC_PRIM_ALTHORIGTHM_H_ */

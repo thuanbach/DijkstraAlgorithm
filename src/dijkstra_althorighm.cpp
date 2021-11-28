@@ -7,7 +7,7 @@
 
 #include "iostream"
 #include <vector>
-
+#include "utils.h"
 
 using namespace std;
 
@@ -105,6 +105,39 @@ int find_smallest_distance(int distance[TOTAL_VERTEXES], std::vector<int> unproc
 	return next_vertex;
 }
 
+
+void trace_dijstra(std::vector<int> processed_vertexes,
+		std::vector<int> unprocessed_vertexes,
+		int distance[TOTAL_VERTEXES],
+		int preprocessor[TOTAL_VERTEXES] ) {
+
+	cout << "S = " << print_vector(processed_vertexes) << endl;
+	cout << "V-S =" << print_vector(unprocessed_vertexes) << endl;
+
+	cout << "Vertex		" << "Distance	" << "Path		" <<endl;
+	for (unsigned int i=1; i<TOTAL_VERTEXES; i++) {
+
+		string dis = "";
+
+		if (distance[i] == MAX_INTEGER) {
+			dis = "∞";
+		} else {
+			dis = to_string(distance[i]);
+		}
+
+		string paht = "";
+
+		if (preprocessor[i] != -1) {
+			paht = to_string(preprocessor[i]) + "->" + to_string(i);
+		}
+
+
+		cout << i <<	"		" << dis << "		" << paht <<endl;
+
+	}
+	cout << endl;
+}
+
 void find_shortest_paths_by_dijkstra() {
 
 	int graph[TOTAL_VERTEXES][TOTAL_VERTEXES];
@@ -136,9 +169,13 @@ void find_shortest_paths_by_dijkstra() {
 	for (int i=1; i<TOTAL_VERTEXES;i++) {
 		if (graph[0][i] != MAX_INTEGER){
 			preprocessor[i] = 0;
+		} else {
+			preprocessor[i] = -1;
 		}
 		distance[i] = graph[0][i];
 	}
+
+	trace_dijstra(processed_vertexes, unprocessed_vertexes, distance, preprocessor);
 
 	while (!unprocessed_vertexes.empty()) {
 
@@ -154,6 +191,7 @@ void find_shortest_paths_by_dijkstra() {
 		}
 
 		unprocessed_vertexes = temp;
+		processed_vertexes.push_back(next_vertex);
 
 
 		for (int i=1; i<TOTAL_VERTEXES; i++) {
@@ -165,11 +203,9 @@ void find_shortest_paths_by_dijkstra() {
 				}
 			}
 		}
+
+		trace_dijstra(processed_vertexes, unprocessed_vertexes, distance, preprocessor);
 	}
 
-	cout << "Vertex		" << "Distance		" << "Path		" <<endl;
-	for (unsigned int i=0; i<TOTAL_VERTEXES; i++) {
 
-		cout << i << "		" << distance[i] << "		" << preprocessor[i] <<endl;
-	}
 }
